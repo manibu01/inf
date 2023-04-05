@@ -1,0 +1,16 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+<p><strong>What do you expect the rate of inflation to be over the next twelve months?</strong></p>
+<p style="font-size: 14px;">Note: If you expect the price level to increase, please enter a positive percentage value. If you expect the price level to decrease, please enter a negative percentage value. Please enter a value with a maximum of one decimal place.</p>
+
+<div>
+      <input type="FloatField" id = "1" name="pointprog">
+    <label for="1"> % </label>
+    <br>
+      <br>
+
+    {{ next_button }}
+
+{{ endblock }}
