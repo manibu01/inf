@@ -1,5 +1,5 @@
 {{ block title }}
-Question {{ roundnumber }}/2
+Question {{ counting }}/{{total_roundnumber}}
 {{ endblock }}
 
 {% block content %}
@@ -7,9 +7,9 @@ Question {{ roundnumber }}/2
 
 <p>Which of the following two scenarios regarding the rate of inflation over the next twelve months do you consider more likely?</p>
   <input type="radio" id = "1" name="bisection" value="1">
-    <label for="1">{{min_expectation}}% to {{mid_point}}%</label> <br>
+    <label for="1">{{mid_point}}% to {{midpoint_q75}}%</label> <br>
   <input type="radio" id = "2" name="bisection" value="0">
-    <label for="2">{{mid_point}}% to {{max_expectation}}%</label> <br>
+    <label for="2">{{midpoint_q75}}% to {{max_expectation}}%</label> <br>
 
  {{ next_button }}
 
