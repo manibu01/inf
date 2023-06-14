@@ -9,7 +9,7 @@ Your app description
 
 
 def creating_session(subsession):
-    treatments = itertools.cycle([1, 2, 3])
+    treatments = itertools.cycle([1, 2, 3, 4])
     for player in subsession.get_players():
         player.treatment = next(treatments)
 
@@ -33,6 +33,10 @@ class C(BaseConstants):
     income_label1 = 'Decrease'
     income_label2 = 'Stay about the same'
     income_label3 = 'Increase'
+
+# adding labels for treatment four variable bins
+
+
 
 class Subsession(BaseSubsession):
     pass
@@ -72,7 +76,6 @@ class Player(BasePlayer):
     )
     pointprog = models.FloatField(
         label="", blank=True,)
-
 
     # treatment: endogenous method
     min_expectation2 = models.FloatField(
@@ -148,7 +151,47 @@ class Player(BasePlayer):
     saw_q1_no_response_error = models.BooleanField(initial=False, required=False)
     answered_q1 = models.BooleanField(initial=False, required=False)
 
+# adding all bin variables for treatment four
 
+    q4_org_bin1 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin2 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin3 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin4 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin5 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin6 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin7 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin8 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin9 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin10 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin11 = models.IntegerField(min=0, max=100, blank=True, null=True, widget=widgets.TextInput())
+    q4_org_bin1_by_player = models.BooleanField(initial=False)
+    q4_org_bin2_by_player = models.BooleanField(initial=False)
+    q4_org_bin3_by_player = models.BooleanField(initial=False)
+    q4_org_bin4_by_player = models.BooleanField(initial=False)
+    q4_org_bin5_by_player = models.BooleanField(initial=False)
+    q4_org_bin6_by_player = models.BooleanField(initial=False)
+    q4_org_bin7_by_player = models.BooleanField(initial=False)
+    q4_org_bin8_by_player = models.BooleanField(initial=False)
+    q4_org_bin9_by_player = models.BooleanField(initial=False)
+    q4_org_bin10_by_player = models.BooleanField(initial=False)
+    q4_org_bin11_by_player = models.BooleanField(initial=False)
+    q4_org_bin12_by_player = models.BooleanField(initial=False)
+    q4_org_bin13_by_player = models.BooleanField(initial=False)
+    q4_org_bin14_by_player = models.BooleanField(initial=False)
+    # Sum of the bins answered by player
+    q4_org_sum_by_player = models.IntegerField(initial=0)
+
+    q4_org_sum = models.IntegerField(initial=0, blank=True)
+    q4_org_sum_100 = models.BooleanField(initial=False, blank=True)
+    q4_org_sum_0 = models.BooleanField(initial=False, blank=True)
+
+    q4_org_sum = models.IntegerField(initial=0, blank=True)
+    # Question 4: Fields for the sum of the bins (if estimates less/more than 100 in sum)
+    q4_rep_sum = models.IntegerField(initial=0, blank=True)
+    q4_rep_sum_100 = models.BooleanField(initial=False, blank=True)
+    q4_rep_sum_0 = models.BooleanField(initial=False, blank=True)
+    saw_q4_no_response_error = models.BooleanField(initial=False, required=False)
+    answered_q4 = models.BooleanField(initial=False, required=False)
 
     # demographic questions
     age = models.IntegerField(label="Age:")
@@ -275,6 +318,16 @@ class Player(BasePlayer):
 
     survey_complete = models.BooleanField(Initial=False)
 
+    bin4_label1 = models.StringField(),
+    bin4_label2 = models.StringField(),
+    bin4_label3 = models.StringField(),
+    bin4_label4 = models.StringField(),
+    bin4_label5 = models.StringField(),
+    bin4_label6 = models.StringField(),
+    bin4_label7 = models.StringField(),
+    bin4_label8 = models.StringField(),
+    bin4_label9 = models.StringField(),
+    bin4_label10 = models.StringField(),
 
 
 # FUNCTIONS
@@ -294,13 +347,27 @@ def midpoint(player: Player):
             player.midpoint = (player.min_expectation + player.max_expectation) / 2
     return player.midpoint
 
-# def midpoint_final(player: Player):
-#     if player.round_number == 2:
-#         player.min_expectation = player.in_round(player.round_number).mid_point
-#         player.max_expectation = player.in_round(player.round_number).max_expectation
-#         player.midpoint_final = (player.min_expectation + player.max_expectation) / 2
-#     return player.midpoint_final
 
+def calculate_variables(pointprog):
+    pointprogplus8 = pointprog + 8
+    pointprogplus4 = pointprog + 4
+    pointprogminus2 = pointprog - 2
+    pointprogminus4 = pointprog - 4
+    pointprogplus2 = pointprog + 2
+    pointprogplus12 = pointprog + 12
+
+
+
+    player.bin4_label1 = f'the rate of inflation will be {pointprogplus8}% or higher'
+    player.bin4_label2 = f'the rate of inflation will be between {pointprogplus4}% and {pointprogplus8}%',
+    player.bin4_label3 = f'the rate of inflation will be between {pointprog}% and {pointprogplus4}%',
+    player.bin4_label4 = f'the rate of inflation will be between {pointprogminus2}% and {pointprog}%',
+    player.bin4_label5 = f'the rate of inflation will be between {pointprogminus4}% and {pointprogminus2}%',
+    player.bin4_label6 = f'the rate of deflation (opposite of inflation) will be between {pointprog}% and {pointprogplus2}%',
+    player.bin4_label7 = f'the rate of deflation (opposite of inflation) will be between {pointprogplus2}% and {pointprogplus4}%',
+    player.bin4_label8 = f'the rate of deflation (opposite of inflation) will be between {pointprogplus4}% and {pointprogplus8}%',
+    player.bin4_label9 = f'the rate of deflation (opposite of inflation) will be between {pointprogplus8}% and {pointprogplus12}%',
+    player.bin4_label10 = f'the rate of deflation (opposite of inflation) will be {pointprogplus12}% or higher'
 
 
 def midpoint_q25(player: Player):
@@ -1105,6 +1172,78 @@ class Bins(Page):
 # demographics
 
 
+class bins4(Page):
+        form_model = "player"
+
+        @staticmethod
+        def vars_for_template(player: Player):
+            return dict(
+                pointprog=player.pointprog,
+            )
+
+
+        @staticmethod
+        def error_message(player: Player, values):
+            if player.treatment == 4:
+                fields = [f'q4_org_bin{i}' for i in range(1, 12)]
+                totals = 0
+                for field in fields:
+                    value = values.get(field, 0)
+                    if not value:
+                        value = 0
+                    totals += int(value)
+
+                if totals != 100:
+                    return 'Please make sure the values add to 100'
+
+        @staticmethod
+        def get_form_fields(player):
+            if player.treatment == 4:
+                return [f'q4_org_bin{i}' for i in range(1, 11)]
+
+        @staticmethod
+        def vars_for_template(player: Player):
+            if player.treatment == 4:
+                fields = [f'q4_org_bin{i}' for i in range(1, 11)]
+                labels = [getattr(Player(),f'bin4_label{i}') for i in range(1, 11)]
+            combined = zip(labels, fields)
+            return dict(combined=combined)
+
+
+        @staticmethod
+        def before_next_page(player, timeout_happened):
+            player.saw_q4_no_response_error = True
+            # First try if the bins are empty. If yes, replace with 0
+            for i in range(1, 11):
+                try:
+                    getattr(player, 'q4_bin' + str(i))
+                    exec("{0} = {1}".format('player.q4_bin' + str(i) + '_by_player', True))
+                except TypeError:
+                    exec("{0} = {1}".format('player.q4_bin' + str(i), 0))
+                    # {0} and {1} are indices to be replaced by the arguments of .format
+
+            bins = [getattr(player, f'q4_bin{i}') for i in range(1, 11)]
+            player.q4_sum = sum_bins(bins)
+            bins_by_player = [getattr(player, f'q4_bin{i}_by_player') for i in range(1, 11)]
+            player.q4_sum_by_player = sum_bins(bins_by_player)
+
+            # Case 1: Beliefs add up to 100
+            if player.q4_sum == 100:
+                player.q4_sum_100 = True
+                player.answered_q4 = True
+
+            # Case 2: Beliefs add up to 0 (i.e. participant didn't enter anything)
+            # In this case set them to none again to restart the density question
+            if player.q4_sum == 0:
+                player.q4_sum_0 = True
+                for i in range(1, 11):
+                    exec("{0} = {1}".format('player.q4_bin' + str(i), None))
+
+            if timeout_happened:
+                player.has_timeout = True
+                player.session.dropout_treatments.append(player.treatment)
+
+
 class Demo1(Page):
     form_model = "player"
     form_fields = ["gender", "age"]
@@ -1326,6 +1465,6 @@ class FinanceIntro(Page):
 
 
 
-page_sequence = [Instructions, Point, InflationsErwartung, Confirmation, InflationsErwartung3, InflationsErwartung2, ConfirmationEndo, InflationsErwartung4, InstructionsP2, Bisection, Bins, Q25Screen,Q25, Q75Screen, Q75,
+page_sequence = [Instructions, Point, InflationsErwartung, Confirmation, InflationsErwartung3, InflationsErwartung2, ConfirmationEndo, InflationsErwartung4, InstructionsP2, Bisection, Bins, bins4, Q25Screen,Q25, Q75Screen, Q75,
                  Bisection2, Q25EndoScreen, Q25Endo, Q75EndoScreen,
                  Q75Endo, Demo6, DemoIntro, Demo1, FinanceIntro, Demo2, Demo3, Demo4, Demo5, Final, Code]

@@ -3,10 +3,10 @@ from os import environ
 SESSION_CONFIGS = [
      dict(
         name='inf',
-        app_sequence=['infexp_finished'],
-        num_demo_participants=3,
+        app_sequence=['infexp_v1_LR'],
+        num_demo_participants=4,
         completionlink=
-        'https://app.prolific.co/submissions/complete?cc=11111111',
+        'https://app.prolific.co/submissions/complete?cc=C10BZSQ3',
      ),
 
 ]
