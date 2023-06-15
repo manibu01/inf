@@ -362,8 +362,8 @@ def round_number_endo(player: Player):
         player.rounded_num = 1
     else:
         player.rounded_num = math.floor(player.number_of_rounds)
-        if player.treatment == 1:
-            player.rounded_num = 2
+            if player.treatment == 1 and player.rounded_num > 2:
+                player.rounded_num = 2
     return player.rounded_num
 
 def round_number_endo_q25(player: Player):
