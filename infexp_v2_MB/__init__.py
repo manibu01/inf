@@ -924,15 +924,6 @@ class Demo6(Page):
         else:
             return False
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            roundnumber1 = round_number_endo(player),
-            roundnumber2 = sum_q25(player),
-            roundnumber3 = sum_q75(player)
-        )
-
-
 
 
 class Final(Page):
@@ -997,4 +988,4 @@ class FinanceIntro(Page):
 
 
 
-page_sequence = [Instructions, Point, InflationsErwartung, Confirmation, InflationsErwartung3, Bisection, Q25Screen, Q25, Q75Screen, Q75, Demo6, DemoIntro, Demo1, FinanceIntro, Demo2, Demo3, Demo4, Demo5, Final, Code]
+page_sequence = [Instructions, Point, InflationsErwartung, Confirmation, InflationsErwartung3, Bisection, Q25Screen, Q25, Q75Screen, Q75, Bins, Demo6, DemoIntro, Demo1, FinanceIntro, Demo2, Demo3, Demo4, Demo5, Final, Code]
